@@ -48,13 +48,19 @@
         </v-layout>  
         <v-divider></v-divider>
       </v-card>
+
+      <NewProjectForm />
+
     </v-container>
   </div>
 </template>
 
 <script>
 
+import NewProjectForm from '../views/forms/Project.vue';
+
 export default {
+  components: { NewProjectForm },
   data() {
     return {
       projects: [
@@ -64,11 +70,15 @@ export default {
         {id: '4', title: 'Call to Nikola Tesla', responsible: 'Luis', dueDate: '17-12-2019', status: 'ongoing', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam nihil dolorem molestiae veniam officiis maxime id rem repudiandae error debitis fugiat dolorum, commodi delectus hic esse blanditiis soluta, minus architecto.'},
         {id: '5', title: 'Site', responsible: 'Pimentel', dueDate: '31-12-2019', status: 'overdue', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam nihil dolorem molestiae veniam officiis maxime id rem repudiandae error debitis fugiat dolorum, commodi delectus hic esse blanditiis soluta, minus architecto.'},
       ],
+      dialog: false,
     }
   },
   methods: {
     sortBy(prop){
       this.projects.sort((a,b) => a[prop] < b[prop] ? -1 : 1);
+    },
+    newProject(){
+      alert('Qloq wawawa, el codigo ta trucho');
     }
   }
 }

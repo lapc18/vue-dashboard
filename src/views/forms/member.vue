@@ -1,15 +1,14 @@
 <template>
-    <div>
-        <v-fab-transition>
-            <v-btn fab large dark bottom right>
-                <v-icon></v-icon>
-            </v-btn>
-        </v-fab-transition>
-    </div>
+    <v-form>
+        this is the form
+    </v-form>
 </template>
 
 <script>
+
 export default {
-    
+    data(){
+
+    }
 }
 </script>

@@ -8,8 +8,10 @@
 </template>
 
 <script>
-
+import config from './firebaseConfig'
 import Navbar from './components/Navbar'
+import firebase from 'firebase/app'
+firebase.initializeApp(config);
 
 export default {
   name: 'App',

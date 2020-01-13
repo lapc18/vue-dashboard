@@ -185,11 +185,9 @@ export default {
           this.newMember.socialNetworks.instagram = "";
           this.newMember.socialNetworks.twitter = "";
           this.key = data.key;
-          console.log(this.key);
           return data.key;
         })
         .then(key => {
-          console.log(key);
           const extension = this.fieldName.slice(this.fieldName.lastIndexOf('.'));
           return storage.ref('team/' + key + '.' + extension).put(this.avatar);
         })
@@ -197,7 +195,6 @@ export default {
           return uploadTaskSnapshot.ref.getDownloadURL();
         })
         .then(imageUrl => {
-          console.log(imageUrl);
           teamRef.child(this.key).update({
             img : imageUrl
           });

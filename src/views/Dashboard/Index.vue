@@ -24,7 +24,7 @@
         </v-tooltip>
       </v-layout>
 
-      <v-card class flat v-for="project in projects" :key="project.id">
+      <v-card class flat v-for="(project, key) in projects" :key="key">
         <v-layout row wrap :class="`pa-3 ml-0 project ${project.status}`">
           <v-flex xs12 md6>
             <div class="caption grey--text">Project Title</div>
@@ -32,22 +32,42 @@
           </v-flex>
           <v-flex xs6 sm4 md2>
             <div class="caption grey--text">Responsible</div>
-            <div>{{ project.memberId }}</div>
+            <div>{{ project.directedBy }}</div>
           </v-flex>
           <v-flex xs6 sm4 md2>
-            <div class="caption grey--text">Due date</div>
-            <div>{{ project.dueDate }}</div>
+            <div class="caption grey--text">Category</div>
+            <div>{{ project.category }}</div>
           </v-flex>
           <v-flex xs2 sm4 md2>
-            <div class="right">
-              <v-chip small dark class="white--text caption my-3">{{ project.status }}</v-chip>
+            <div class="">
+              <v-btn icon dark class="warning ma-1"><v-icon>mdi-pencil</v-icon></v-btn>  
+              <v-dialog v-model="dialogDelete" persistent max-width="290">
+                <template v-slot:activator="{ on }">
+                  <v-btn icon dark class="red ma-1" v-on="on"><v-icon>mdi-delete</v-icon></v-btn>
+                </template>
+                <v-card>
+                  <v-card-title class="headline">DevLegnd</v-card-title>
+                  <v-card-text>Are you sure you want to delete this row?</v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="black darken-1" text @click="dialogDelete = false">No</v-btn>
+                    <v-btn color="red darken-1" rounded dark @click="removeProject(project['.key'])">Delete</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>              
             </div>
           </v-flex>
         </v-layout>
         <v-divider></v-divider>
       </v-card>
 
-      <NewProjectForm />
+      
+      <v-btn @click="addProject" fab large right fixed dark bottom class="white--text" v-on="on">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+      
+      <NewProjectForm :model="dialog" :type="dialogType" :_key="key"/>
+
     </v-container>
   </div>
 </template>
@@ -72,6 +92,10 @@ export default {
   components: { NewProjectForm },
   data: () => ({
     dialog: false,
+    dialogType: 'add',
+    key: '',
+    dialogEdit: false,
+    dialogDelete: false,
     projects: [],
     team: []
   }),
@@ -79,6 +103,19 @@ export default {
     sortBy(prop) {
       this.projects.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
     },
+    removeProject(key){
+      //console.log(key);
+      projectsRef.child(key).remove().then(() => {this.dialogDelete = false});
+    },
+    addProject(){
+      this.dialogType = 'add';
+      this.dialog = true;
+    },
+    editProject(e, key){
+      this.dialogType = 'edit';
+      this.dialog = true;
+      this.key = key;
+    }
   },
 }
 </script>

@@ -36,14 +36,14 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn link :href="`${person.socialNetworks.facebook}`" icon flat color="grey">
-                <v-icon small left>mdi-facebook</v-icon>
+              <v-btn link :href="`${person.socialNetworks.facebook}`" icon target="_blank" color="grey">
+                <v-icon small>mdi-facebook</v-icon>
               </v-btn>
-              <v-btn link :href="`${person.socialNetworks.instagram}`" icon flat color="grey">
-                <v-icon small left>mdi-instagram</v-icon>
+              <v-btn link :href="`${person.socialNetworks.instagram}`" icon target="_blank" color="grey">
+                <v-icon small>mdi-instagram</v-icon>
               </v-btn>
-              <v-btn link :href="`${person.socialNetworks.twitter}`" icon flat color="grey">
-                <v-icon small left>mdi-twitter</v-icon>
+              <v-btn link :href="`${person.socialNetworks.twitter}`" icon target="_blank" color="grey">
+                <v-icon small>mdi-twitter</v-icon>
               </v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>

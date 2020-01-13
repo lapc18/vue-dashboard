@@ -51,7 +51,7 @@ export default {
       { icon: "mdi-view-dashboard", text: "Dashboard", route: "/" },
       { icon: "mdi-folder", text: "My Projects", route: "/MyProjects" },
       { icon: "mdi-account-multiple", text: "Team", route: "/Team" },
-      { icon: "mdi-info", text: "About", route: "/About" }
+      { icon: "mdi-information", text: "About", route: "/About" }
     ]
   })
 };

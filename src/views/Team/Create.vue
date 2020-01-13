@@ -1,119 +1,112 @@
 <template>
-  <v-dialog v-model="dialog" persistent>
-    <template v-slot:activator="{ on }">
-      <v-btn fab large right fixed dark bottom class="white--text" v-on="on">
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
-    </template>
-    <v-card>
-      <v-card-title>Add New Member</v-card-title>
-      <v-card-text>
-        <!-- <v-alert
-          transition="scale-transition"
-          v-model="alertValue"
-          dismissible
-          colored-border
-          color="success"
-          icon="mdi-check"
-          dark
-        >Your membe was saved successfully!</v-alert>-->
-        <v-form class="px-3" ref="form">
-          <div class="text-center">
-            <v-container grid-list-xl>
-              <div>
-                <input
-                  type="file"
-                  ref="file"
-                  :name="uploadFieldName"
-                  @change="onFileChange($event.target.name, $event.target.files)"
-                  style="display:none"
-                />
-                <v-avatar @click="launchFilePicker()" size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3">
-                  <span>Click to add avatar</span>
-                </v-avatar>
-                <v-avatar size="150px" v-ripple v-else class="mb-3">
-                  <img :src="imageURL" alt="avatar" />
-                </v-avatar>
-              </div>
-            </v-container>
-          </div>
-          <v-row>
-            <v-row>
-              <v-col>
-                <v-text-field
-                  label="Full name"
-                  required
-                  v-model="newMember.name"
-                  :rules="inputRules"
-                  prepend-icon="mdi-folder"
-                ></v-text-field>
-              </v-col>
-              <v-col>
-                <v-text-field
-                  label="Role"
-                  required
-                  v-model="newMember.role"
-                  :rules="inputRules"
-                  prepend-icon="mdi-folder"
-                ></v-text-field>
-              </v-col>
-            </v-row>
-          </v-row>
-
-          <v-row>
-            <!-- <h3 class="grey--text">Social Networks</h3> -->
-            <v-col>
-              <v-text-field
-                label="Facebook"
-                required
-                v-model="newMember.socialNetworks.facebook"
-                :rules="linkRules"
-                prepend-icon="mdi-facebook"
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-text-field
-                label="Instagram"
-                required
-                v-model="newMember.socialNetworks.instagram"
-                :rules="linkRules"
-                prepend-icon="mdi-instagram"
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-text-field
-                label="Twitter"
-                required
-                v-model="newMember.socialNetworks.twitter"
-                :rules="linkRules"
-                prepend-icon="mdi-twitter"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-
+  <v-card>
+    <v-card-title>Add New Member</v-card-title>
+    <v-card-text>
+      <!-- <v-alert
+        transition="scale-transition"
+        v-model="alertValue"
+        dismissible
+        colored-border
+        color="success"
+        icon="mdi-check"
+        dark
+      >Your membe was saved successfully!</v-alert>-->
+      <v-form class="px-3" ref="form">
+        <div class="text-center">
+          <v-container grid-list-xl>
+            <div>
+              <input
+                type="file"
+                ref="file"
+                :name="uploadFieldName"
+                @change="onFileChange($event.target.name, $event.target.files)"
+                style="display:none"
+              />
+              <v-avatar @click="launchFilePicker()" size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3">
+                <span>Click to add avatar</span>
+              </v-avatar>
+              <v-avatar size="150px" v-ripple v-else class="mb-3">
+                <img :src="imageURL" alt="avatar" />
+              </v-avatar>
+            </div>
+          </v-container>
+        </div>
+        <v-row>
           <v-row>
             <v-col>
-              <v-textarea
-                label="Description"
-                v-model="newMember.description"
+              <v-text-field
+                label="Full name"
+                required
+                v-model="newMember.name"
                 :rules="inputRules"
-                prepend-icon="mdi-pencil"
-              ></v-textarea>
+                prepend-icon="mdi-folder"
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-text-field
+                label="Role"
+                required
+                v-model="newMember.role"
+                :rules="inputRules"
+                prepend-icon="mdi-folder"
+              ></v-text-field>
             </v-col>
           </v-row>
+        </v-row>
 
-          <div>
-            <v-btn class="ma-2" rounded text @click="cancel()">
-              <v-icon left>mdi-close-circle</v-icon>Cancel
-            </v-btn>
-            <v-btn type="submit" dark color="dark" class="ma-2" rounded @click.prevent="submit()">
-              <v-icon left>mdi-content-save</v-icon>Save
-            </v-btn>
-          </div>
-        </v-form>
-      </v-card-text>
-    </v-card>
-  </v-dialog>
+        <v-row>
+          <!-- <h3 class="grey--text">Social Networks</h3> -->
+          <v-col>
+            <v-text-field
+              label="Facebook"
+              required
+              v-model="newMember.socialNetworks.facebook"
+              :rules="linkRules"
+              prepend-icon="mdi-facebook"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              label="Instagram"
+              required
+              v-model="newMember.socialNetworks.instagram"
+              :rules="linkRules"
+              prepend-icon="mdi-instagram"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              label="Twitter"
+              required
+              v-model="newMember.socialNetworks.twitter"
+              :rules="linkRules"
+              prepend-icon="mdi-twitter"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <v-col>
+            <v-textarea
+              label="Description"
+              v-model="newMember.description"
+              :rules="inputRules"
+              prepend-icon="mdi-pencil"
+            ></v-textarea>
+          </v-col>
+        </v-row>
+
+        <div>
+          <v-btn class="ma-2" rounded text @click="cancel()">
+            <v-icon left>mdi-close-circle</v-icon>Cancel
+          </v-btn>
+          <v-btn type="submit" dark color="dark" class="ma-2" rounded @click.prevent="submit()">
+            <v-icon left>mdi-content-save</v-icon>Save
+          </v-btn>
+        </div>
+      </v-form>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -142,7 +135,6 @@ export default {
       saving: false,
       saved: false,
       team: [],
-      dialog: false,
       alertValue: false,
       imageURL: '',
       newMember: {

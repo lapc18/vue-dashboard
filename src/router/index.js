@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Dashboard from '../views/Dashboard.vue'
+
+
+import Dashboard from '../views/Dashboard'
 import About from '../views/About.vue'
 import MyProjects from '../views/MyProjects.vue'
 import Team from '../views/Team.vue'

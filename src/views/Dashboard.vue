@@ -1,5 +1,15 @@
 <template>
   <div class="dashboard">
+
+    <v-alert 
+      transition="scale-transition" 
+      v-model="alertValue" 
+      dismissible
+      colored-border
+      :color="alert.color"
+      :icon="alert.icon"
+      dark>{{alert.msg}}</v-alert>
+
     <v-subheader class="grey--text">Dashboard</v-subheader>
 
     <v-container class="my-5">
@@ -32,22 +42,43 @@
           </v-flex>
           <v-flex xs6 sm4 md2>
             <div class="caption grey--text">Responsible</div>
-            <div>{{ project.memberId }}</div>
+            <div>{{ project.directedBy }}</div>
           </v-flex>
           <v-flex xs6 sm4 md2>
-            <div class="caption grey--text">Due date</div>
-            <div>{{ project.dueDate }}</div>
+            <div class="caption grey--text">Category</div>
+            <div>{{ project.category }}</div>
           </v-flex>
           <v-flex xs2 sm4 md2>
-            <div class="right">
-              <v-chip small dark class="white--text caption my-3">{{ project.status }}</v-chip>
+            <div class="">
+              <v-btn icon dark class="warning ma-1"><v-icon>mdi-pencil</v-icon></v-btn>  
+              <v-dialog v-model="dialogDelete" persistent max-width="290">
+                <template v-slot:activator="{ on }">
+                  <v-btn icon dark class="red ma-1" v-on="on"><v-icon>mdi-delete</v-icon></v-btn>
+                </template>
+                <v-card>
+                  <v-card-title class="headline">DevLegnd</v-card-title>
+                  <v-card-text>Are you sure you want to delete this row?</v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="black darken-1" text @click="dialogDelete = false">No</v-btn>
+                    <v-btn color="red darken-1" rounded dark @click="onRemoveProject(project)">Delete</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>              
             </div>
           </v-flex>
         </v-layout>
         <v-divider></v-divider>
       </v-card>
 
-      <NewProjectForm />
+      <v-dialog v-model="dialogAdd" persistent>		
+        <template v-slot:activator="{ on }">		     
+          <v-btn @click="this.onCreateProject" fab large right fixed dark bottom class="white--text" v-on="on">		  
+            <v-icon>mdi-plus</v-icon>		      
+          </v-btn>		        
+        </template>
+      </v-dialog>
+      
     </v-container>
   </div>
 </template>
@@ -55,12 +86,10 @@
 <script>
 import NewProjectForm from "../views/forms/Project.vue";
 
-import firebase from 'firebase/app'
+import firebase from 'firebase'
 import 'firebase/database'
 
-
 let db = firebase.database();
-
 let projectsRef = db.ref('projects');
 let teamRef = db.ref('team');
 
@@ -73,12 +102,27 @@ export default {
   data: () => ({
     dialog: false,
     projects: [],
-    team: []
+    team: [],
+    alert:{
+      msg: '',
+      color: '',
+      icon: ''
+    },
+    alertValue: false
   }),
   methods: {
     sortBy(prop) {
       this.projects.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
     },
+    onCreateProject(){
+
+    },
+    onRemoveProject(item){
+      projectsRef.child(item['.key']).remove().then(()=>{
+        alertValue = true;
+        alert.msg = 'The project ' + item.projectName + 'has been deleted successfully'
+      });
+    }
   },
 }
 </script>

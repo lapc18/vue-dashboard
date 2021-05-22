@@ -97,9 +97,8 @@
 </template>
 
 <script>
-import firebase from "firebase/app";
+import firebase from "firebase";
 import "firebase/database";
-import {bus} from '../../../main.js'
 
 let db = firebase.database();
 let storage = firebase.storage();
@@ -142,7 +141,7 @@ export default {
     cancel() {
       this.model = false;
       this.$validator.reset();
-      bus.$emit("dialog", false);
+      this.$emit("dialog", false);
     },
     submit() {
       if (this.$refs.form.validate()) {
@@ -196,7 +195,7 @@ export default {
             this.newProject.directedBy = this.model.directedBy;
             this.newProject.category = this.model.category;
             this.newProject.description = this.model.description;
-            this.key = model['.key'];
+            this.key = this.model['.key'];
         }
     }
   },

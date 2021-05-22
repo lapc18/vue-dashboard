@@ -57,7 +57,7 @@
 
 <script>
 
-import NewMember from '../views/forms/Member'
+import NewMember from '../views/forms/Member.vue'
 import firebase from 'firebase/app'
 import 'firebase/database'
 

@@ -17,12 +17,12 @@
               <input
                 type="file"
                 ref="file"
-                :name="uploadFieldName"
-                @change="onFileChange($event.target.name, $event.target.files)"
+                :name="fieldName"
+                @change.native="onFileSelectionChange($event.target.name, $event.target.files)"
                 style="display:none"
               />
               <v-avatar
-                @click="launchFilePicker()"
+                @click.native="onAvatarClick()"
                 size="150px"
                 v-ripple
                 v-if="!image"
@@ -97,9 +97,9 @@
 </template>
 
 <script>
-import firebase from "firebase/app";
+import firebase from "firebase";
 import "firebase/database";
-import {bus} from '../../../main.js'
+
 
 let db = firebase.database();
 let storage = firebase.storage();
@@ -137,18 +137,19 @@ export default {
       ],
       selectRules: [
         v => v.length > 0 || "You should select one of these items..."
-      ]
+      ]  
     };
   },
   methods: {
     cancel() {
       this.model = false;
-      this.$validator.reset();
-      this.$emit("dialog", false);
+      this.$ref.form.reset();
+      this.$emit("result", false, "The form has been canceled.");
     },
+     
     submit() {
-      if (this.$refs.form.validate()) {
-        console.log(this.newProject);
+      console.log(this.newProject);
+        if (this.$refs.form.validate()) 
         projectRef
           .push(this.newProject)
           .then(data => {
@@ -179,17 +180,16 @@ export default {
             });
           });
         this.$validator.reset();
-        bus.$emit("dialog", false);
+        this.$emit("result", false, "The item has been created successfully!.");
       }
     },
-    launchFilePicker() {
+    onAvatarClick(){
       this.$refs.file.click();
     },
-    onFileChange(fieldName, file) {
+    onFileSelectionChange(fieldName, file) {
       this.image = file[0];
       this.fieldName = file[0].name;
       this.imageURL = URL.createObjectURL(this.image);
     }
-  }
-};
+}
 </script>

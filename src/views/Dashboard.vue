@@ -1,13 +1,12 @@
 <template>
   <div class="dashboard">
-
     <v-alert 
       transition="scale-transition" 
       v-model="alertValue" 
       dismissible
       colored-border
       :color="alert.color"
-      :icon="alert.icon"
+      icon="mdi-information"
       dark>{{alert.msg}}</v-alert>
 
     <v-subheader class="grey--text">Dashboard</v-subheader>
@@ -60,12 +59,13 @@
                   <v-card-text>Are you sure you want to delete this row?</v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="black darken-1" text @click="dialogDelete = false">No</v-btn>
+                    <v-btn color="black darken-1" rounded text @click="dialogDelete = false">No</v-btn>
+
                     <v-btn color="red darken-1" rounded dark @click="onRemoveProject(project)">Delete</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>              
-            </div>
+            </div> 
           </v-flex>
         </v-layout>
         <v-divider></v-divider>
@@ -73,10 +73,11 @@
 
       <v-dialog v-model="dialogAdd" persistent>		
         <template v-slot:activator="{ on }">		     
-          <v-btn @click="this.onCreateProject" fab large right fixed dark bottom class="white--text" v-on="on">		  
+          <v-btn fab large right fixed dark bottom class="white--text" v-on="on">		  
             <v-icon>mdi-plus</v-icon>		      
           </v-btn>		        
         </template>
+        <AddProjectForm @result="onCreateProject" />
       </v-dialog>
       
     </v-container>
@@ -84,7 +85,8 @@
 </template>
 
 <script>
-import NewProjectForm from "../views/forms/Project.vue";
+import AddProjectForm from "../views/forms/project/Create.vue";
+//import EditProjectForm from "../views/forms/project/Edit.vue";
 
 import firebase from 'firebase'
 import 'firebase/database'
@@ -98,9 +100,15 @@ export default {
     projects: projectsRef,
     team: teamRef,
   },
-  components: { NewProjectForm },
+  components: { 
+    AddProjectForm, 
+    //EditProjectForm 
+  
+  },
   data: () => ({
-    dialog: false,
+    dialogAdd: false,
+    dialogEdit: false,
+    dialogDelete: false,
     projects: [],
     team: [],
     alert:{
@@ -114,29 +122,23 @@ export default {
     sortBy(prop) {
       this.projects.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
     },
-    onCreateProject(){
-
+    onCreateProject(dialog, msg){
+      this.dialogAdd = dialog;
+      this.showAlert(msg, 'green', 'mdi-check');
     },
     onRemoveProject(item){
       projectsRef.child(item['.key']).remove().then(()=>{
-        alertValue = true;
-        alert.msg = 'The project ' + item.projectName + 'has been deleted successfully'
+        this.alertValue = true;
+        var msg = 'The project ' + item.projectName + 'has been deleted successfully';
+        this.showAlert(msg, 'red', 'mdi-deleted');
       });
+      this.dialogDelete = false;
+    },
+    showAlert(msg, color, icon){
+       this.alert.msg = msg;
+      this.alert.color = color;
+      this.alert.icon = icon;
     }
   },
 }
 </script>
-
-<style>
-.project.complete {
-  border-left: 4px solid #3cd1c2;
-}
-
-.project.ongoing {
-  border-left: 4px solid orange;
-}
-
-.project.overdue {
-  border-left: 4px solid tomato;
-}
-</style>
